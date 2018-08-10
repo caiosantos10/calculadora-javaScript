@@ -35,12 +35,14 @@
     
     }
 
+    //AC
     clearAll(){
 
         this._operation = [];
         
     }
 
+    //CE
     clearEntry(){
 
         this._operation.pop();
@@ -76,14 +78,35 @@
 
         }
     }
-
+    
+    //efetua calculo com pares de numeros
     calc(){
 
         let last = this._operation.pop();
 
-        let result = eval(this._operation.join()); 
+        let result = eval(this._operation.join("")); 
         
         this._operation = [result, last];
+
+        this.setLastNumberToDisplay();
+
+    }
+
+    setLastNumberToDisplay(){
+
+        let lastNumber;
+
+        for(let i = this._operation.length - 1; i >= 0; i--){
+
+            if(!this.isOperator(this._operation[i])){
+
+                lastNumber = this._operation[i];
+                break;
+
+            }
+        }
+
+        this.displayCalc = lastNumber;
 
     }
 
@@ -108,6 +131,8 @@
 
                 this.pushOperation(value);
 
+                this.setLastNumberToDisplay();
+
             }
 
             //CASO UM OPERADOR SEJA DIGITADO APOS UM NUMERO
@@ -120,6 +145,8 @@
 
                 let newValue = this.getLastOperation().toString() + value.toString();
                 this.setLastOperation(parseInt(newValue));
+
+                this.setLastNumberToDisplay();
 
             }
 
