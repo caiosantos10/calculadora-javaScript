@@ -21,6 +21,8 @@
             this.setDisplayDateTime()
 
         }, 1000);
+
+        this.setLastNumberToDisplay();
         
     }
     /*Um EventListener customizado que recebe varios eventos,
@@ -39,6 +41,8 @@
     clearAll(){
 
         this._operation = [];
+
+        this.setLastNumberToDisplay();
         
     }
 
@@ -46,7 +50,8 @@
     clearEntry(){
 
         this._operation.pop();
-        console.log(this._operation);
+        
+        this.setLastNumberToDisplay();
     }
 
     //retorna o ultimo item do array _operation
@@ -83,10 +88,23 @@
     calc(){
 
         let last = this._operation.pop();
-
-        let result = eval(this._operation.join("")); 
         
-        this._operation = [result, last];
+        let result = eval(this._operation.join("")); 
+
+        //fazer validação do simbolo de %
+        if (last == '%'){
+
+            result = result / 100;
+
+            this._operation = [result];
+
+        } else {
+
+        
+            this._operation = [result, last];
+
+        }
+
 
         this.setLastNumberToDisplay();
 
@@ -105,6 +123,10 @@
 
             }
         }
+
+        if (!lastNumber){
+            lastNumber = 0;
+        }    
 
         this.displayCalc = lastNumber;
 
