@@ -87,7 +87,13 @@
     //efetua calculo com pares de numeros
     calc(){
 
-        let last = this._operation.pop();
+        let last = '';
+
+        if (this._operation.length > 3){
+            
+            last = this._operation.pop();
+            
+        }
         
         let result = eval(this._operation.join("")); 
 
@@ -100,9 +106,9 @@
 
         } else {
 
-        
-            this._operation = [result, last];
+            this._operation = [result];
 
+            if (last) this._operation.push(last);
         }
 
 
@@ -205,7 +211,7 @@
                 this.addOperator('%');
                 break;           
             case 'igual':
-                this.clearAll();
+                this.calc();
                 break;
             case 'ponto':
                 this.addOperator('.');
