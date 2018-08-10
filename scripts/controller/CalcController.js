@@ -66,9 +66,19 @@
 
     }
 
+    pushOperation(value){
+
+        this._operation.push(value);
+
+        if (this._operation.length > 3){
+
+            console.log(this._operation);
+        }
+    }
+
     addOperator(value){
         
-        console.log('a', value, isNaN(this.getLastOperation()));
+        //console.log('a', value, isNaN(this.getLastOperation()));
 
         //se ultimo item o array NAO é numero
         if (isNaN(this.getLastOperation())){ 
@@ -79,20 +89,21 @@
 
             //se value (item atual) NAO é numero    
             } else if(isNaN(value)){
-
-                console.log(value);
+                
+                console.log('outra coisa',value);
 
             // caso contrario (se for numero)    
             } else {
 
-                this._operation.push(value);
+                this.pushOperation(value);
 
             }
 
-        } else {//CASO UM OPERADOR SEJA DIGITADO APOS UM NUMERO
+            //CASO UM OPERADOR SEJA DIGITADO APOS UM NUMERO
+        } else {
             if (this.isOperator(value)){
 
-                this._operation.push(value);
+                this.pushOperation(value);
 
             } else {
 
@@ -102,8 +113,6 @@
             }
 
         }
-        
-        console.log(this._operation);
     }
 
     setError(){
