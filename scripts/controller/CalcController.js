@@ -72,10 +72,19 @@
 
         if (this._operation.length > 3){
 
-            let last = this._operation.pop();
+            this.calc();
 
-            console.log(this._operation);
         }
+    }
+
+    calc(){
+
+        let last = this._operation.pop();
+
+        let result = eval(this._operation.join()); 
+        
+        this._operation = [result, last];
+
     }
 
     addOperator(value){
