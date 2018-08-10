@@ -1,7 +1,7 @@
-class CalcController{
+ class CalcController{
     /*querySelector method - select elements in document html */ 
     constructor(){
-
+        //operation armazena os numeros e sinais da operacao a ser realizada
         this._operation = [];
         this._locale = 'pt-BR';
         this._displayCalcEl = document.querySelector("#display"); 
@@ -38,17 +38,71 @@ class CalcController{
     clearAll(){
 
         this._operation = [];
+        
     }
 
     clearEntry(){
 
-        this._operation.pop(value);
+        this._operation.pop();
+        console.log(this._operation);
+    }
+
+    //retorna o ultimo item do array _operation
+    getLastOperation(){
+
+        return this._operation[this._operation.length-1];
+    }
+
+    //substitui ultima ultima posicao pelo argumento 'value' 
+    setLastOperation(value){
+
+        this._operation[this._operation.length-1] = value;
+
+    }
+
+    isOperator(value){
+
+       return (['+','-','*','/','.','%'].indexOf(value) > -1);
+
     }
 
     addOperator(value){
+        
+        console.log('a', value, isNaN(this.getLastOperation()));
 
-        this._operation.push(value);
+        //se ultimo item o array NAO é numero
+        if (isNaN(this.getLastOperation())){ 
+            //se value (item atual) é operador
+            if (this.isOperator(value)){
+                
+                this.setLastOperation(value);
 
+            //se value (item atual) NAO é numero    
+            } else if(isNaN(value)){
+
+                console.log(value);
+
+            // caso contrario (se for numero)    
+            } else {
+
+                this._operation.push(value);
+
+            }
+
+        } else {//CASO UM OPERADOR SEJA DIGITADO APOS UM NUMERO
+            if (this.isOperator(value)){
+
+                this._operation.push(value);
+
+            } else {
+
+                let newValue = this.getLastOperation().toString() + value.toString();
+                this.setLastOperation(parseInt(newValue));
+
+            }
+
+        }
+        
         console.log(this._operation);
     }
 
@@ -67,22 +121,25 @@ class CalcController{
                 this.clearEntry();
                 break;
             case 'soma':
-                this.clearAll();
+                this.addOperator('+');
                 break;
             case 'subtracao':
-                this.clearAll();
+                this.addOperator('-');
                 break;
             case 'divisao':
-                this.clearAll();
+                this.addOperator('/');
                 break;
             case 'multiplicacao':
-                this.clearAll();
+                this.addOperator('*');
                 break;
             case 'porcento':
-                this.clearAll();
+                this.addOperator('%');
                 break;           
             case 'igual':
                 this.clearAll();
+                break;
+            case 'ponto':
+                this.addOperator('.');
                 break;
             case "0":
             case "1":
